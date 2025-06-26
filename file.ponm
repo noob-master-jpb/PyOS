@@ -9,9 +9,12 @@
         
     def testfunc1(a,b): return a+b
     def testfunc1(a,b): a+b
+    def replace(param):
+        t = {"key":param}
+        return t
 )
 
-{   
+@main(   
     #numbers
     "n1":"1"->int,
     "n2":int("1"),
@@ -20,10 +23,12 @@
     "x":f"{n1+n2}",
     int:2 #this means both value and key will be same
     
+    "test":replace("hello")
+
     #string
     "text1":"hello",
     "text2":str:hello,
     "text3":""
     str:text4:str:hello,
     "text5" #this means both value and key will be same
-}
+)
