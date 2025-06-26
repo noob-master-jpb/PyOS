@@ -1,0 +1,7 @@
+identify evaluator of xml and json
+safe from over complication 
+declearing param 
+using tag again and again 
+tokenisation 
+static 
+what is wrapper in python 
