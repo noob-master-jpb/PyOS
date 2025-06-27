@@ -2,33 +2,62 @@
     KEY:VALUE,
 )
 
+
+@template(
+    NAME(PLACEHOLDER):
+        {"key": PLACEHOLDER}
+
+
+    tem(data):
+        "test":data
+)
+
 @func(
     def testfunc(a,b):
         c = a+b
         return a+b
         
     def testfunc1(a,b): return a+b
-    def testfunc1(a,b): a+b
-    def replace(param):
-        t = {"key":param}
-        return t
 )
 
 @main(   
-    #numbers
+
     "n1":"1"->int,
     "n2":int("1"),
     "n3":int:"1",
+    "n4":1,
+    "n5":str:1,
     int:"1":int:"3",
     "x":f"{n1+n2}",
-    int:2 #this means both value and key will be same
-    
-    "test":replace("hello")
+    int:"2",
 
-    #string
     "text1":"hello",
-    "text2":str:hello,
+    "text2":str:n1,
     "text3":""
     str:text4:str:hello,
-    "text5" #this means both value and key will be same
+    "text5"
+
+    "lis1":["1","2","3"],
+    "lis2":int:["1","2","3"],
+    "lis3":[1,2,3,4,5],
+    "lis4":str:[1,2,3,4,5],
+    "lis5":str([1,2,3,4,5]),
+    "lis6":str([1,2,3,4,5]),
+
+
+    "tup1":("1","2","3"),
+    "tup2":int:("1","2","3"),
+    "tup3":(1,2,3,4,5),
+    "tup4":str:(1,2,3,4,5),
+    "tup5":str((1,2,3,4,5)),
+
+    "val": if n1 > n2: True else: False, 
+
+    "numbers":[i for i in range(3)],
+
+    f"numbers{i}":for i in range(10),
+    
+    f"num{i}":{"data":i} for i in range(10),
+
+
 )
