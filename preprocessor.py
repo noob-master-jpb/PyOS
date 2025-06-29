@@ -1,3 +1,5 @@
+from pprint import pprint
+
 
 FILE_URI=r"test.pyos"
 FILE = open(FILE_URI)
@@ -24,6 +26,8 @@ for i in globals:
     if "=" in i:
         key, value = i.split("=", 1)
         global_vars[key] = value
-    
+pprint(current_block,indent=1
+       
+       )
 
 
