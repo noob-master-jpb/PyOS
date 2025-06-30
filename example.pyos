@@ -10,6 +10,14 @@
 
     tem(data):
         "test":data
+
+    user_temp(data):
+        {
+            "name":{
+                "test2":data,
+                "arr":["1","2","3"]
+            }
+        }
 )
 
 @func(
@@ -30,7 +38,6 @@
         "key":"value"
     }
 
-    "n1":"1"->int,
     "n2":int("1"),
     "n3":int:"1",
     "n4":1,
