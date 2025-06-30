@@ -1,7 +1,6 @@
 from test import *
 import re
 
-
 PP_TOKEN_TYPES = [
     ('ID',           r'[a-zA-Z_][a-zA-Z0-9_]*'),
     ('COLON',        r':'),
@@ -28,9 +27,13 @@ PP_TOKEN_TYPES = [
     ('GT',           r'>'),
     ('LE',           r'<='),
     ('GE',           r'>='),
+    ('AND',          r'\band\b'),
+    ('OR',           r'\bor\b'),
+    ('NOT',          r'\bnot\b'),
     ('NEWLINE',      r'\n'),
     ('BODY_LINE',    r'.+'),
     ('WHITESPACE',   r'[ \t]+'),
+
 ]
 
 # Example template for your structure
@@ -45,7 +48,8 @@ template = [
 
 complied_regex = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
 
-    
+
+
 class Tokenizer:
     def __init__(self,tokens,blocks):
         self.tokens = tokens
