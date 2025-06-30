@@ -1,7 +1,7 @@
 from pprint import pprint
 
 
-FILE_URI=r"test.pyos"
+FILE_URI=r"example.pyos"
 FILE = open(FILE_URI)
 
 blocks_tokens = {"globals","template","func","main"}
