@@ -1,17 +1,33 @@
 from test import *
 import re
+
+
 PP_TOKEN_TYPES = [
     ('ID',           r'[a-zA-Z_][a-zA-Z0-9_]*'),
     ('COLON',        r':'),
+    ('SEMICOLON',    r';'),
     ('LPAREN',       r'\('),
     ('RPAREN',       r'\)'),
     ('LBRACE',       r'\{'),
     ('RBRACE',       r'\}'),
+    ('LBRACKET',     r'\['),
+    ('RBRACKET',     r'\]'),
     ('STRING',       r'"[^"]*"'),
+    ('SINGLE_STRING',r"'[^']*'"),
     ('NUMBER',       r'\d+(\.\d+)?'),
     ('COMMA',        r','),
-    ('INDENT',       r'^[ \t]+'),
-    ('DEDENT',       r''),
+    ('DOT',          r'\.'),
+    ('PLUS',         r'\+'),
+    ('MINUS',        r'-'),
+    ('STAR',         r'\*'),
+    ('SLASH',        r'/'),
+    ('EQUAL',        r'='),
+    ('EQEQ',         r'=='),
+    ('NOTEQ',        r'!='),
+    ('LT',           r'<'),
+    ('GT',           r'>'),
+    ('LE',           r'<='),
+    ('GE',           r'>='),
     ('NEWLINE',      r'\n'),
     ('BODY_LINE',    r'.+'),
     ('WHITESPACE',   r'[ \t]+'),
@@ -27,24 +43,26 @@ template = [
     ')'
 ]
 
+complied_regex = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
 
-token_regexes = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
-# print(token_regexes)
+    
+class Tokenizer:
+    def __init__(self,tokens,blocks):
+        self.tokens = tokens
+        self.compiled_tokens = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
+        
+        if not blocks:
+            raise ValueError("No Blocks in Tokenizer")
+        
+        self.blocks = blocks
+        self.stack = {}
+        for i in blocks:
+            self.stack[i] = list()
+            
+        
+            
+        
 
-for line in template:
-    # print(f"Line: {line}")
-    tokens = []
-    pos = 0
-    while pos < len(line):
-        match = None
-        for name, regex in token_regexes:
-            match = regex.match(line, pos)
-            if match:
-                if name != 'WHITESPACE':  # skip whitespace tokens
-                    tokens.append((name, match.group()))
-                pos = match.end()
-                break
-        if not match:
-            pos += 1  # skip unrecognized character
-    print("Tokens:", tokens)
+
+
 
