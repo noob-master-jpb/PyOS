@@ -46,7 +46,23 @@ template = [
 
 complied_regex = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
 
+tokens = []
+pos = 0
+text = template[0]  # Example input, replace as needed
 
+while pos < len(text):
+    match = None
+    for name, regex in complied_regex:
+        match = regex.match(text, pos)
+        if match:
+            if name != 'WHITESPACE':  # skip whitespace tokens
+                tokens.append((name, match.group(0)))
+            pos = match.end()
+            break
+    if not match:
+        raise SyntaxError(f'Unexpected character: {text[pos]} at position {pos}')
+
+print(tokens)
 
 
 
