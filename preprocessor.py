@@ -23,4 +23,3 @@ def get_blocks(DATA):
     return current_block
     
 # pprint(get_blocks(FILE_DATA))
-
