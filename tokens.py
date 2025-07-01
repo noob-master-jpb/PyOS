@@ -1,4 +1,3 @@
-from test import *
 import re
 
 PP_TOKEN_TYPES = [
@@ -12,8 +11,8 @@ PP_TOKEN_TYPES = [
     ('LBRACKET',     r'\['),
     ('RBRACKET',     r'\]'),
     ('STRING',       r'"[^"]*"'),
-    ('SINGLE_STRING',r"'[^']*'"),
-    ('NUMBER',       r'\d+(\.\d+)?'),
+    ('FLOAT',        r'\d+\.\d+'),  # Floating-point numbers
+    ('INT',          r'\d+'), 
     ('COMMA',        r','),
     ('DOT',          r'\.'),
     ('PLUS',         r'\+'),
@@ -40,7 +39,6 @@ PP_TOKEN_TYPES = [
 template = [
     'NAME(PLACEHOLDER):',
     '    {"key": PLACEHOLDER}',
-    '',
     'tem(data):',
     '    "test":data',
     ')'
@@ -50,21 +48,8 @@ complied_regex = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPE
 
 
 
-class Tokenizer:
-    def __init__(self,tokens,blocks):
-        self.tokens = tokens
-        self.compiled_tokens = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
-        
-        if not blocks:
-            raise ValueError("No Blocks in Tokenizer")
-        
-        self.blocks = blocks
-        self.stack = {}
-        for i in blocks:
-            self.stack[i] = list()
-            
-        
-            
+
+
         
 
 
