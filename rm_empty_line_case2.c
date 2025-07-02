@@ -9,6 +9,9 @@ char* process_and_copy(const char *input)
     char *out_put;
     size_t output_index = 0;  // index into out[]
     char temp;
+    int tabin=0;
+    int escape_newline='\n';
+    int escape_tab='\t';
 
     //length determination of input string 
     length_of_input = strlen(input);
@@ -27,13 +30,31 @@ char* process_and_copy(const char *input)
     for (size_t i = 0; i <length_of_input; ++i) 
     {
         temp = input[i];
-        if (temp == ('\n')) 
+        //Newline Escape charecture Check
+        if (temp == (escape_newline)) 
         {
             // if previous char '\n', skip this one
-            if (output_index > 0 && out_put[output_index - 1] == ('\n'))
+            tabin=i;
+            printf("%d",tabin);
+            if ((output_index > 0 )&& out_put[output_index - 1] == (escape_newline))
                 continue;
         }
-        out_put[output_index++] = temp;
+        //Tab Escape Charrecture Check
+        else if(temp==(escape_tab))
+        {
+            if((output_index >0)&& (out_put[output_index]==(escape_newline))&&(out_put[output_index-1]==(escape_tab)))
+            {
+                printf("%c",input[tabin]);
+                out_put[output_index++] = input[tabin];
+                printf("%c",out_put[output_index]);
+            }
+        }
+        //out_put[output_index++] = temp;
+        else
+        {
+            out_put[output_index++] = temp;
+        }
+        
     }
     // null‑terminate
     out_put[output_index] = '\0';  
@@ -44,7 +65,7 @@ char* process_and_copy(const char *input)
 
 int main(void) 
 {
-    char original[] = "Hello\n\n\tWorld!";
+    char original[] = "Hello\n\n\t\nWorld!";
     char *modified = process_and_copy(original);
 
     printf("Original: \n%s\n", original);
@@ -53,6 +74,3 @@ int main(void)
     free(modified);
     return 0;
 }
-
-
-
