@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//ALL VARIABLES ARE DECLEARED HERE
-
 
 char* process_and_copy(const char *input) 
 {
