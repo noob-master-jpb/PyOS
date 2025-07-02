@@ -1,32 +1,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//ALL VARIABLES ARE DECLEARED HERE
+
 
 char* process_and_copy(const char *input) 
 {
-    size_t len = strlen(input);
-    /*allocate len+1 to have room for '\0'*/
-    char *out = malloc(len + 1);
-    if (!out) {
+    //ALL VARIABLES ARE DECLEARED HERE
+    size_t length_of_input;
+    char *out_put;
+    size_t output_index = 0;  // index into out[]
+    char temp;
+
+    //length determination of input string 
+    length_of_input = strlen(input);
+
+    //allocate length+1 to have room for '\0' in the end
+    out_put = malloc(length_of_input + 1);
+
+    //format printing"Exit due to memory allocation failure"
+    if (!out_put) 
+    {   
         fprintf(stderr, "Memory allocation failed\n");
         exit(EXIT_FAILURE);
     }
 
-    size_t oi = 0;  // index into out[]
-    for (size_t i = 0; i < len; ++i) {
-        char c = input[i];
-        if (c == '\n') {
+    //Appending Value to output array
+    for (size_t i = 0; i <length_of_input; ++i) 
+    {
+        temp = input[i];
+        if (temp == '\n') 
+        {
             // if previous char '\n', skip this one
-            if (oi > 0 && out[oi - 1] == '\n')
+            if (output_index > 0 && out_put[output_index - 1] == '\n')
                 continue;
         }
-        out[oi++] = c;
+        out_put[output_index++] = temp;
     }
-    out[oi] = '\0';  // null‑terminate
-    return out;
+    // null‑terminate
+    out_put[output_index] = '\0';  
+    
+    //Returning output to main as form of array
+    return out_put;
 }
 
-int main(void) {
+int main(void) 
+{
     char original[] = "Hello\n\n\nWorld!";
     char *modified = process_and_copy(original);
 
