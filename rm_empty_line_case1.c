@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* process_and_copy(const char *input) {
+char* process_and_copy(const char *input) 
+{
     size_t len = strlen(input);
     /*allocate len+1 to have room for '\0'*/
     char *out = malloc(len + 1);
