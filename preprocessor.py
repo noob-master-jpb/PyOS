@@ -24,3 +24,17 @@ def get_blocks(DATA):
     
 # pprint(get_blocks(FILE_DATA))
 
+
+class Tokenizer:
+    def __init__(self,tokens,blocks):
+        self.tokens = tokens
+        self.compiled_tokens = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
+        
+        if not blocks:
+            raise ValueError("No Blocks in Tokenizer")
+        
+        self.blocks = blocks
+        self.stack = {}
+        for i in blocks:
+            self.stack[i] = list()
+            

@@ -1,7 +1,8 @@
 import re
-
+from test import template
 PP_TOKEN_TYPES = [
     ('ID',           r'[a-zA-Z_][a-zA-Z0-9_]*'),
+    
     ('COLON',        r':'),
     ('SEMICOLON',    r';'),
     ('LPAREN',       r'\('),
@@ -10,15 +11,19 @@ PP_TOKEN_TYPES = [
     ('RBRACE',       r'\}'),
     ('LBRACKET',     r'\['),
     ('RBRACKET',     r'\]'),
+    
     ('STRING',       r'"[^"]*"'),
     ('FLOAT',        r'\d+\.\d+'),  # Floating-point numbers
     ('INT',          r'\d+'), 
     ('COMMA',        r','),
     ('DOT',          r'\.'),
+    
     ('PLUS',         r'\+'),
     ('MINUS',        r'-'),
     ('STAR',         r'\*'),
     ('SLASH',        r'/'),
+    ('MOD',          r'%'),
+    
     ('EQUAL',        r'='),
     ('EQEQ',         r'=='),
     ('NOTEQ',        r'!='),
@@ -26,23 +31,25 @@ PP_TOKEN_TYPES = [
     ('GT',           r'>'),
     ('LE',           r'<='),
     ('GE',           r'>='),
+    
     ('AND',          r'\band\b'),
     ('OR',           r'\bor\b'),
     ('NOT',          r'\bnot\b'),
+   
     ('NEWLINE',      r'\n'),
     ('WHITESPACE',   r'[ \t]+'),
 ]
 
 # Example template for your structure
-template = [
-    'NAME(PLACEHOLDER):',
-    '   {"key":', 
-    '       PLACEHOLDER}',
-    'tem(data):',
-    '   "test":data',
-    ')'
-]
-#
+# template = [
+#     'NAME(PLACEHOLDER):',
+#     '   {"key":', 
+#     '       PLACEHOLDER}',
+#     'tem(data):',
+#     '   "test":data',
+#     ')'
+# ]
+
 complied_regex = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
 
 tokens = []
@@ -52,7 +59,7 @@ for text in template:
 
     while (pos < len(text)) and (text[pos] == " "):
         pos +=1
-    pos
+    
     for t in range(int((pos+1)//4)):
         tokens.append(("INDENT","INDENT"))
     while pos < len(text):
@@ -70,11 +77,3 @@ for text in template:
     tokens.append(("NEWLINE", "\n"))
 from pprint import pprint
 pprint(tokens)
-
-
-
-            
-
-
-
-
