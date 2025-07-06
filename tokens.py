@@ -1,8 +1,6 @@
-import re
-from test import template
-PP_TOKEN_TYPES = [
+TOKEN_TYPES = [
     ('ID',           r'[a-zA-Z_][a-zA-Z0-9_]*'),
-    
+
     ('COLON',        r':'),
     ('SEMICOLON',    r';'),
     ('LPAREN',       r'\('),
@@ -40,40 +38,8 @@ PP_TOKEN_TYPES = [
     ('WHITESPACE',   r'[ \t]+'),
 ]
 
-# Example template for your structure
-# template = [
-#     'NAME(PLACEHOLDER):',
-#     '   {"key":', 
-#     '       PLACEHOLDER}',
-#     'tem(data):',
-#     '   "test":data',
-#     ')'
-# ]
 
-complied_regex = [(name, re.compile(pattern)) for name, pattern in PP_TOKEN_TYPES if pattern]
 
-tokens = []
 
-for text in template:
-    pos = 0
 
-    while (pos < len(text)) and (text[pos] == " "):
-        pos +=1
-    
-    for t in range(int((pos+1)//4)):
-        tokens.append(("INDENT","INDENT"))
-    while pos < len(text):
-        match = None
-        for name, regex in complied_regex:
-            match = regex.match(text, pos)
-            if match:
-                if name != 'WHITESPACE':
-                    tokens.append((name, match.group(0)))
-                pos = match.end()
-                break
-        if not match:
-            raise SyntaxError(f'Unexpected character: {text[pos]} at position {pos}')
 
-    tokens.append(("NEWLINE", "\n"))
-from pprint import pprint
-pprint(tokens)
