@@ -68,13 +68,12 @@
 
     "templ":NAME("world"),
 
-    "val": if n1 > n2: True else: False, 
+    "val": if n3 > n2: True else: False, 
 
     "numbers":[i for i in range(3)],
 
     f"numbers{i}":for i in range(10),
     
     f"num{i}":{"data":i} for i in range(10),
-
 
 )
