@@ -4,36 +4,68 @@ struct = "struct"
 type_ = "type"
 repeat = "repeat"
 separator = "separator"
+keyword = "keyword"
 
 
-definition = {
+keyword_defination = [
+    "int",
+    "for",
+    "while",
+    "if",
+    "else",
+    "elif",
+    "continue",
+    "break",
+    "pass",
+]
+
+data_defination = {
+    
+}
+global_definition = {
 
     "function": {
         struct: ["funct_name", "LPAREN", "param", "RPAREN", "COLON"],
         "function_name": {
             type_: "ID",
-            required: True
+            required: True,
+            keyword: False
         },
         "param": {
             type_: "ID",
             required: False,
             repeat: True,
             separator: "COMMA",
+            keyword: False,
         }
     },
     "data": {
-        struct: ["variable", "COLON", "data"],
-        "variable": {
+        struct: ["data_type", "COLON", "variable", 
+                 "COLON", 
+                 "data_type", "COLON","data"],
+        
+        
+        
+        "data_type": {
             type_: "ID",
-            required: True
+            required: True,
+            keyword: True
+        },
+        
+        "variable": {
+            type_: "STRING",
+            required: True,
+            keyword: True,
         },
         "data": {
-            type_: ["int", "float", "string", "bool", "list", "tuple","dict"],
-            required: True
+            type_: data_defination,
+            required: True,
+            keyword: True,
         }
         
     }
 }
+
 
 defaults = {
     repeat:False,

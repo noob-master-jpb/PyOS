@@ -28,3 +28,8 @@ def tokenize(data,token_types):
 
         tokens.append(("NEWLINE", "\n"))
     return tokens
+
+from tokens import TOKEN_TYPES
+from preprocessor import FILE_DATA, get_blocks
+from pprint import pprint
+pprint(tokenize(get_blocks(FILE_DATA)["main"], TOKEN_TYPES))
