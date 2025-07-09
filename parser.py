@@ -19,6 +19,8 @@ keyword_defination = [
     "continue", "break", "pass", "f"
 ]
 
+
+
 # Data type definitions for values
 data_defination = {
     "value": {
@@ -135,71 +137,76 @@ global_definition = {
     
     # Assignment patterns
     "assignment": {
-        struct: ["assignment_target", "COLON", "assignment_value"]
-    },
-    
-    "assignment_target": {
-        alternatives: [
-            "simple_key",
-            "typed_key", 
-            "f_string_key"
-        ]
-    },
-    
-    "simple_key": {
-        alternatives: ["STRING", "ID"]
-    },
-    
-    "typed_key": {
-        struct: ["type_annotation", "COLON", "key_name"]
-    },
-    
-    "f_string_key": {
-        struct: ["ID", "STRING"],
-        "ID": {
-            keyword: "f"
+        struct: ["assignment_target", "COLON", "assignment_value"],
+        
+        "assignment_target": {
+            alternatives: [
+                "simple_key",
+                "typed_key", 
+                "f_string_key"
+            ],
+            
+            "simple_key": {
+                alternatives: ["STRING", "ID"]
+            },
+            
+            "typed_key": {
+                struct: ["type_annotation", "COLON", "key_name"],
+                "type_annotation": {
+                    alternatives: ["ID"],
+                    keyword: True
+                },
+                "key_name": {
+                    alternatives: ["STRING", "ID"]
+                }
+            },
+            
+            "f_string_key": {
+                struct: ["ID", "STRING"],
+                "ID": {
+                    keyword: "f"
+                }
+            }
+        },
+        
+        "assignment_value": {
+            alternatives: [
+                "simple_value",
+                "typed_value",
+                "function_call_value",
+                "comprehension_assignment"
+            ],
+            
+            "simple_value": {
+                struct: ["value"]
+            },
+            
+            "typed_value": {
+                struct: ["type_annotation", "COLON", "value"],
+                "type_annotation": {
+                    alternatives: ["ID"],
+                    keyword: True
+                }
+            },
+            
+            "function_call_value": {
+                struct: ["type_annotation", "LPAREN", "call_args", "RPAREN"],
+                "type_annotation": {
+                    alternatives: ["ID"],
+                    keyword: True
+                },
+                "call_args": {
+                    struct: ["value"],
+                    repeat: True,
+                    separator: "COMMA",
+                    required: False
+                }
+            },
+            
+            "comprehension_assignment": {
+                struct: ["value", "FOR", "ID", "IN", "iterable"]
+            }
         }
-    },
-    
-    "assignment_value": {
-        alternatives: [
-            "simple_value",
-            "typed_value",
-            "function_call_value",
-            "comprehension_assignment"
-        ]
-    },
-    
-    "simple_value": {
-        struct: ["value"]
-    },
-    
-    "typed_value": {
-        struct: ["type_annotation", "COLON", "value"]
-    },
-    
-    "function_call_value": {
-        struct: ["type_annotation", "LPAREN", "call_args", "RPAREN"]
-    },
-    
-    "comprehension_assignment": {
-        struct: ["value", "FOR", "ID", "IN", "iterable"]
-    },
-    
-    "type_annotation": {
-        alternatives: ["ID"],
-        keyword: True
-    },
-    
-    "key_name": {
-        alternatives: ["STRING", "ID"]
-    },
-    
-    "call_args": {
-        struct: ["value"],
-        repeat: True,
-        separator: "COMMA",
-        required: False
     },
     
     # Function definitions
@@ -216,64 +223,58 @@ global_definition = {
             struct: ["param"],
             repeat: True,
             separator: "COMMA",
-            required: False
-        },
-        
-        "param": {
-            type_: "ID",
-            required: True,
-            keyword: False
+            required: False,
+            
+            "param": {
+                type_: "ID",
+                required: True,
+                keyword: False
+            }
         }
     },
     
     # Property definitions (for objects like "tag")
     "property_def": {
-        struct: ["property_name", "COLON", "property_value"]
-    },
-    
-    "property_name": {
-        alternatives: ["STRING", "ID"]
-    },
-    
-    "property_value": {
-        alternatives: ["value", "property_list"]
-    },
-    
-    "property_list": {
-        struct: ["LBRACKET", "property_items", "RBRACKET"]
-    },
-    
-    "property_items": {
-        struct: ["property_def"],
-        repeat: True,
-        separator: "COMMA",
-        required: False
+        struct: ["property_name", "COLON", "property_value"],
+        
+        "property_name": {
+            alternatives: ["STRING", "ID"]
+        },
+        
+        "property_value": {
+            alternatives: ["value", "property_list"],
+            
+            "property_list": {
+                struct: ["LBRACKET", "property_items", "RBRACKET"],
+                "property_items": {
+                    struct: ["property_def"],
+                    repeat: True,
+                    separator: "COMMA",
+                    required: False
+                }
+            }
+        }
     },
     
     # Object/Dict structure (like "tag" example)
     "object_def": {
-        struct: ["STRING", "COLON", "LBRACE", "object_body", "RBRACE"]
-    },
-    
-    "object_body": {
-        struct: ["object_item"],
-        repeat: True,
-        separator: "COMMA",
-        required: False
-    },
-    
-    "object_item": {
-        alternatives: ["property_def", "assignment"]
+        struct: ["STRING", "COLON", "LBRACE", "object_body", "RBRACE"],
+        
+        "object_body": {
+            struct: ["object_item"],
+            repeat: True,
+            separator: "COMMA",
+            required: False,
+            
+            "object_item": {
+                alternatives: ["property_def", "assignment"]
+            }
+        }
     },
     
     # Key definition for various assignment patterns
     "key": {
         alternatives: ["STRING", "ID", "typed_key", "f_string_key"]
-    },
-    
-    # Value definition for right-hand side of assignments
-    "value": {
-        struct: ["data_defination.value"]
     }
 }
 
