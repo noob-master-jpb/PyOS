@@ -37,9 +37,13 @@ class definition:
         self.type = type
         
     def required(self, required):
+        if self.separator and not self.repeat:
+            raise ValueError("repeat cannot be set to False if separator is set.")
         self.required = required
         
     def separator(self, separator):
+        if self.repeat and not separator:
+            raise ValueError("separator can only be set if repeat is True.")
         self.separator = separator
         
     def repeat(self, repeat):
@@ -49,8 +53,10 @@ class definition:
         self.keyword = keyword
         
     def assign(self,**kwargs):
+        """
+        Needs to be improved in future versions.
+        """
         
-        # Check for mutual exclusivity
         exclusive_keys = ["struct", "type", "alternatives"]
         present_keys = [key for key in exclusive_keys if key in kwargs]
         if len(present_keys) > 1:
