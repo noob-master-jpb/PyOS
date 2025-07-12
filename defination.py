@@ -97,3 +97,45 @@ class definition:
             self.keyword = kwargs["keyword"]
         
 
+primitive_values = definition("primitive_values")
+
+
+collection = definition("collection")
+
+
+expression = definition("expression")
+arithmrtic_expr = definition("arithmrtic_expr") 
+conditional_expr = definition("conditional_expr")
+comparison_expr = definition("comparison_expr")
+
+
+template_call = definition("template_call")
+template_args = definition("template_args")
+
+f_string_value = definition("fstring")
+
+value = definition("value")
+
+assignment = definition("assignment")
+
+assignment_target = definition("assignment_target")
+simple_key = definition("simple_key")
+typed_key = definition("typed_key")
+f_string_key = definition("f_string_key")
+
+assignment_value = definition("assignment_value")
+simple_value = definition("simple_value")
+typed_value = definition("typed_value")
+function_call_value = definition("function_call_value")
+comprehension_value = definition("comprehension_value")
+
+
+function_header = definition("function_header")
+function_name = definition("function_name")
+param_list = definition("param_list")
+param = definition("param")
+
+property_def = definition("property_def")
+property_name = definition("property_name")
+property_value = definition("property_value")
+

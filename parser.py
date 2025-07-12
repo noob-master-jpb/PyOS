@@ -174,7 +174,7 @@ global_definition = {
                 "simple_value",
                 "typed_value",
                 "function_call_value",
-                "comprehension_assignment"
+                "comprehension_value"
             ],
             
             "simple_value": {
@@ -203,14 +203,14 @@ global_definition = {
                 }
             },
             
-            "comprehension_assignment": {
+            "comprehension_value": {
                 struct: ["value", "FOR", "ID", "IN", "iterable"]
             }
         }
     },
-    
+      
     # Function definitions
-    "function": {
+    "function_header": {
         struct: ["function_name", "LPAREN", "param_list", "RPAREN", "COLON"],
         
         "function_name": {
@@ -242,40 +242,11 @@ global_definition = {
         },
         
         "property_value": {
-            alternatives: ["value", "property_list"],
-            
-            "property_list": {
-                struct: ["LBRACKET", "property_items", "RBRACKET"],
-                "property_items": {
-                    struct: ["property_def"],
-                    repeat: True,
-                    separator: "COMMA",
-                    required: False
-                }
-            }
+            alternatives: ["STRING"]
         }
     },
     
-    # Object/Dict structure (like "tag" example)
-    "object_def": {
-        struct: ["STRING", "COLON", "LBRACE", "object_body", "RBRACE"],
-        
-        "object_body": {
-            struct: ["object_item"],
-            repeat: True,
-            separator: "COMMA",
-            required: False,
-            
-            "object_item": {
-                alternatives: ["property_def", "assignment"]
-            }
-        }
-    },
-    
-    # Key definition for various assignment patterns
-    "key": {
-        alternatives: ["STRING", "ID", "typed_key", "f_string_key"]
-    }
+
 }
 
 # Default values for grammar rules
