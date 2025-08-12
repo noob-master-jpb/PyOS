@@ -68,7 +68,11 @@ data_defination = {
                     required: False
                 },
                 "dict_item": {
-                    struct: ["key", "COLON", "value"]
+                    struct: ["key", "COLON", "value"],
+                    "key": {
+                        alternatives: ["STRING", "ID"]
+                    },
+                    
                 }
             }
         },
@@ -84,7 +88,7 @@ data_defination = {
             "arithmetic_expr": {
                 struct: ["value", "arithmetic_op", "value"],
                 "arithmetic_op": {
-                    alternatives: ["PLUS", "MINUS", "STAR", "SLASH"]
+                    alternatives: ["PLUS", "MINUS", "STAR", "SLASH", "MOD"]
                 }
             },
             

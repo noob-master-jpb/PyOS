@@ -1,3 +1,6 @@
+from tokens import TOKEN_TYPES
+from preprocessor import FILE_DATA, get_blocks
+from pprint import pprint
 import re
 
 def tokenize(data,token_types):
@@ -7,6 +10,7 @@ def tokenize(data,token_types):
 
     for text in data:
         pos = 0
+
 
         while (pos < len(text)) and (text[pos] == " "):
             pos +=1
@@ -29,7 +33,4 @@ def tokenize(data,token_types):
         tokens.append(("NEWLINE", "\n"))
     return tokens
 
-from tokens import TOKEN_TYPES
-from preprocessor import FILE_DATA, get_blocks
-from pprint import pprint
 pprint(tokenize(get_blocks(FILE_DATA)["main"], TOKEN_TYPES))
