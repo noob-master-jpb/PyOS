@@ -19,13 +19,13 @@ class Definition:
         
         self.separator = kwargs.get("separator", None)
         self.keyword = kwargs.get("keyword", False)
-        
-        
-    def stuct(self,stuct,):
+
+
+    def struct(self, struct):
         if self.type or self.alternatives:
             raise ValueError("Cannot set 'struct' when 'type' or 'alternatives' are defined.")
-        self.struct = stuct
-        
+        self.struct = struct
+
     def alternatives(self, alternatives):
         if self.type or self.struct:
             raise ValueError("Cannot set 'alternatives' when 'type' or 'struct' are defined.")

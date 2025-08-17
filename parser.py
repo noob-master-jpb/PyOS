@@ -225,12 +225,12 @@ global_definition = {
         
         "param_list": {
             struct: ["param"],
-            repeat: True,
-            separator: "COMMA",
             required: False,
             
             "param": {
                 type_: "ID",
+                repeat: True,
+                separator: "COMMA",
                 required: True,
                 keyword: False
             }

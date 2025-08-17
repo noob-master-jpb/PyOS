@@ -4,7 +4,7 @@ value = Definition("value")
 
 primitive_value = Definition("primitive_values")
 
-
+iterable = Definition("iterable")
 collection_value = Definition("collection")
 list_value = Definition("list_value")
 value_list = Definition("value_list")
@@ -23,6 +23,10 @@ conditional_expr = Definition("conditional_expr")
 comparison_expr = Definition("comparison_expr")
 comprehension_expr = Definition("comprehension_expr")
 
+arithmetic_op = Definition("arithmetic_op")
+comparison_op = Definition("comparison_op")
+
+
 template_call = Definition("template_call")
 template_args = Definition("template_args")
 
@@ -39,82 +43,133 @@ f_string_key = Definition("f_string_key")
 assignment_value = Definition("assignment_value")
 simple_value = Definition("simple_value")
 typed_value = Definition("typed_value")
-function_call_value = Definition("function_call_value")
 comprehension_value = Definition("comprehension_value")
 
 
-function_call_value = Definition("function_call_value")
 function_header = Definition("function_header")
 function_name = Definition("function_name")
-function_call_value = Definition("function_call_value")
-param_list = Definition("param_list")
-param = Definition("param")
+call_args = Definition("call_args")
 param = Definition("param")
 function_call_value = Definition("function_call_value")
 
 property_def = Definition("property_def")
-property_name = Definition("property_name")
 property_value = Definition("property_value")
+property_item = Definition("property_item")
+property_items = Definition("property_items") 
 
-value.alternatives = [
+
+value.alternatives((
     primitive_value, 
     collection_value, 
     expression_value,
     template_call,
     f_string_value
-]
+))
 
-primitive_value.alternatives = ["STRING", "INT", "FLOAT", "ID"]
-collection_value.alternatives = [
-    list_value, 
-    tuple_value, 
+primitive_value.alternatives(("STRING", "INT", "FLOAT", "ID"))
+collection_value.alternatives((
+    list_value,
+    tuple_value,
     dict_value
-]
-value_list.struct = [value]
-value_list.repeat = True
-value_list.separator = "COMMA"
-value_list.required = False
-list_value.struct = ["LBRACKET", value_list, "RBRACKET"]
-tuple_value.struct = ["LBRACE", value_list, "RBRACE"]
-dict_value.struct = ["LBRACE", value_list, "RBRACE"]
-dict_value.struct = ["LBRACE", dict_items, "RBRACE"]
-dict_items.struct = [dict_item]
-dict_items.repeat = True
-dict_items.separator = "COMMA"
-dict_items.required = False
-dict_item.struct =  [key, "COLON", value]
-key.alternatives = ["STRING", "ID"]
+))
 
-expression_value.alternatives = [
+value_list.struct((value))
+value_list.repeat(True)
+value_list.separator("COMMA")
+value_list.required(False)
+list_value.struct(("LBRACKET", value_list, "RBRACKET"))
+tuple_value.struct(("LPAREN", value_list, "RPAREN"))
+dict_value.struct(("LBRACE", dict_items, "RBRACE"))
+
+dict_items.struct((dict_item,))
+dict_items.repeat(True)
+dict_items.separator("COMMA")
+dict_items.required(False)
+dict_item.struct((key, "COLON", value))
+key.alternatives(("STRING", "ID"))
+
+expression_value.alternatives((
     arithmrtic_expr,
     conditional_expr,
     comparison_expr,
     comprehension_value
-]
+))
 
-arithmetic_op = Definition("arithmetic_op")
-arithmetic_op.alternatives = ["PLUS", "MINUS", "STAR", "SLASH", "MOD"]
-arithmrtic_expr.struct = [value, arithmetic_op, value]
+arithmetic_op.alternatives(("PLUS", "MINUS", "STAR", "SLASH", "MOD"))
+arithmrtic_expr.struct((value, arithmetic_op, value))  # Remove quotes
 
-comparison_op = Definition("comparison_op")
-comparison_op.alternatives = ["GT", "LT", "GE", "LE", "EQEQ", "NOTEQ"]
-comparison_expr.struct = [value, comparison_op, value]
+comparison_op.alternatives(("GT", "LT", "GE", "LE", "EQEQ", "NOTEQ"))
+comparison_expr.struct((value, comparison_op, value))  # Remove quotes
+
+iterable.alternatives((collection_value, "ID", "RANGE_CALL"))  # Remove quotes
+
+conditional_expr.struct((value, "IF", value, "COLON", value, "ELSE", "COLON", value))
+
+
+comprehension_expr.struct(("LBRACKET", value, "FOR", "ID", "IN", iterable, "RBRACKET"))
+
+template_args.struct((value,))
+template_args.repeat(True)
+template_args.separator("COMMA")
+template_args.required(False)
+template_call.struct(("ID", 
+                      "LPAREN", 
+                      template_args, 
+                      "RPAREN"))
+
+f_string_value.struct(("F", "STRING"))
+
+simple_key.struct(("ID",))
+typed_key.struct(("TYPE","COLON", "STRING"))
+assignment_target.alternatives([simple_key,typed_key,f_string_key])
+
+typed_value.struct(("TYPE", "COLON", value))
+assignment_value.alternatives(
+    (value,typed_value,comprehension_value,function_call_value)
+)
+
+call_args.struct((value,))
+call_args.repeat(True)
+call_args.separator("COMMA")
+call_args.required(False)
+
+function_call_value.struct(
+    ("ID", "LPAREN", call_args, "RPAREN")
+)
+
+
+comprehension_value.struct(
+    (value, "FOR", "ID", "IN", iterable, )
+)
+assignment.struct(
+    (assignment_target,"COLON",assignment_value)
+)
+
+function_name.struct(("ID",))
+
+param.struct(("ID",))  # Single parameter is just an ID
+
+param_list = Definition("param_list")
+param_list.struct((param,))      # List contains params
+param_list.repeat(True)          # The LIST repeats, not individual param
+param_list.separator("COMMA")    # Commas separate the params in the list
+param_list.required(False)       # Allow empty parameter lists
+
+function_header.struct(
+    (function_name, "LPAREN", param_list, "RPAREN", "COLON")
+)
 
 
 
-iterable = Definition("iterable")
-iterable.alternatives = [collection_value, "ID","RANGE_CALL"]
-comprehension_expr.struct = ["LBRACKET", value, "FOR", "ID", "IN", iterable, "RBRACKET"]
 
-template_args.struct = (value,)
-template_args.repeat = True
-template_args.separator = "COMMA"
-template_args.required = False
-template_call.struct =["ID", "LPAREN", template_args, "RPAREN"]
+property_item.struct((key, "COLON", value))
 
-f_string_value.struct = ["F", "STRING"]
+property_items.struct((property_item,))
+property_items.repeat(True)
+property_items.separator("COMMA")
 
-typed_key.struct = ["TYPE","COLON", "ID"]
-assignment_target.alternatives = ["STRING","ID",typed_key,f_string_key]
+property_value.struct(("LBRACKET", property_items, "RBRACKET"))
 
-assignment.struct = [assignment_target, "COLON", assignment_value]
+property_def.struct(
+    ("PROPERTY","COLON",property_value)
+)
