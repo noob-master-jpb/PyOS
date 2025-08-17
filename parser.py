@@ -99,7 +99,7 @@ data_defination = {
                 }
             },
             
-            "conditional_expr": {
+            "conditional_expr": { #needed to be updated for multiple condition in a single line
                 struct: ["IF", "value", "comparison_op", "value", "COLON", "value", "ELSE", "COLON", "value"],
                 "comparison_op": {
                     alternatives: ["GT", "LT", "GE", "LE", "EQEQ", "NOTEQ"]

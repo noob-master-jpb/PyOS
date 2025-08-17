@@ -100,11 +100,21 @@ comparison_op = Definition("comparison_op")
 comparison_op.alternatives = ["GT", "LT", "GE", "LE", "EQEQ", "NOTEQ"]
 comparison_expr.struct = [value, comparison_op, value]
 
-comprehension_expr.struct = ["LBRACKET", "value", "FOR", "ID", "IN", "iterable", "RBRACKET"]
+
 
 iterable = Definition("iterable")
 iterable.alternatives = [collection_value, "ID","RANGE_CALL"]
-["LBRACKET", "value", "FOR", "ID", "IN", "iterable", "RBRACKET"]
+comprehension_expr.struct = ["LBRACKET", value, "FOR", "ID", "IN", iterable, "RBRACKET"]
 
+template_args.struct = (value,)
+template_args.repeat = True
+template_args.separator = "COMMA"
+template_args.required = False
+template_call.struct =["ID", "LPAREN", template_args, "RPAREN"]
 
+f_string_value.struct = ["F", "STRING"]
 
+typed_key.struct = ["TYPE","COLON", "ID"]
+assignment_target.alternatives = ["STRING","ID",typed_key,f_string_key]
+
+assignment.struct = [assignment_target, "COLON", assignment_value]
