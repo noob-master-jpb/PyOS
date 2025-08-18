@@ -92,7 +92,7 @@ expression_value.alternatives((
     arithmrtic_expr,
     conditional_expr,
     comparison_expr,
-    comprehension_value
+    comprehension_expr
 ))
 
 arithmetic_op.alternatives(("PLUS", "MINUS", "STAR", "SLASH", "MOD"))
@@ -120,12 +120,14 @@ template_call.struct(("ID",
 f_string_value.struct(("F", "STRING"))
 
 simple_key.struct(("ID",))
+typed_id = Definition("typed_id")
+
 typed_key.struct(("TYPE","COLON", "STRING"))
-assignment_target.alternatives([simple_key,typed_key,f_string_key])
+assignment_target.alternatives((simple_key,typed_key,f_string_key,"PROPERTY"))
 
 typed_value.struct(("TYPE", "COLON", value))
 assignment_value.alternatives(
-    (value,typed_value,comprehension_value,function_call_value)
+    (value,typed_value,comprehension_value,function_call_value,property_value)
 )
 
 call_args.struct((value,))
@@ -150,19 +152,16 @@ function_name.struct(("ID",))
 param.struct(("ID",))  # Single parameter is just an ID
 
 param_list = Definition("param_list")
-param_list.struct((param,))      # List contains params
-param_list.repeat(True)          # The LIST repeats, not individual param
-param_list.separator("COMMA")    # Commas separate the params in the list
-param_list.required(False)       # Allow empty parameter lists
+param_list.struct((param,))      
+param_list.repeat(True)          
+param_list.separator("COMMA")    
+param_list.required(False)       
 
 function_header.struct(
     (function_name, "LPAREN", param_list, "RPAREN", "COLON")
 )
 
-
-
-
-property_item.struct((key, "COLON", value))
+property_item.struct(("STRING", "COLON", "STRING"))
 
 property_items.struct((property_item,))
 property_items.repeat(True)
@@ -171,5 +170,5 @@ property_items.separator("COMMA")
 property_value.struct(("LBRACKET", property_items, "RBRACKET"))
 
 property_def.struct(
-    ("PROPERTY","COLON",property_value)
+    ("PROPERTY", "COLON", property_value)
 )
