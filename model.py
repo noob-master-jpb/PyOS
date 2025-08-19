@@ -119,7 +119,7 @@ template_call.struct(("ID",
 
 f_string_value.struct(("F", "STRING"))
 
-simple_key.struct(("ID",))
+simple_key.struct(("ID","STRING"))
 typed_id = Definition("typed_id")
 
 typed_key.struct(("TYPE","COLON", "STRING"))

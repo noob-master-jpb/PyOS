@@ -42,9 +42,8 @@
     "n3":int:"1",
     "n4":1,
     "n5":str:1,
-    int:"1":int:"3",
     "x":f"{n1+n2}",
-    int:"2",
+
 
     "text1":"hello",
     "text2":str:n1,
@@ -74,6 +73,6 @@
 
     f"numbers{i}":for i in range(10),
     
-    f"num{i}":{"data":i} for i in range(10),
+    f"num{i}":{"dauta":i} for i in range(10),
 
 )
